@@ -8,16 +8,3 @@ gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
 rustc 1.84.1 (e71f9a9a9 2025-01-27) / cargo 1.84.1 (66221abde 2024-11-19)
 zig 0.13.0
 
-
-all have same structure
-SORTS:
-class{
-void SORT()
-bool LESS()
-void EXCH()
-void SHOW()
-bool ISSORTED()
-void main()
-}
-
-
