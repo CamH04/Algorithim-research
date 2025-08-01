@@ -1,7 +1,7 @@
 
 /***************************************************************************************
 *    Title: Tyto Compiler: For A Mathamatocle Approach To Compilers
-*    Author: Camerom Haynes
+*    Author: Cameron Haynes
 *    Date: DD/MM/2025
 ***************************************************************************************/
 
