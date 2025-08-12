@@ -19,7 +19,8 @@ obj/%.o: src/%.cpp
 
 run: main
 	./main test.lctest
+	make clean
 
 .PHONY: clean
 clean:
-	rm -rf obj main test.lc
+	rm -rf obj main
