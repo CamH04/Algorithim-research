@@ -18,8 +18,8 @@ obj/%.o: src/%.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 run: main
-	./main
+	./main test.lctest
 
 .PHONY: clean
 clean:
-	rm -rf obj obj-win main main.exe
+	rm -rf obj main test.lc
