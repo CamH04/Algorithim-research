@@ -1,0 +1,11 @@
+Optimise LC file via eta reduction (https://arxiv.org/html/2409.05351v1)
+Analyses Conducted on the IR
+
+    Type analysis (when using typed λ-calculus) to detect inconsistencies early.
+
+    Structural analysis to identify pure expressions, dead code, or optimization candidates.
+
+    Equational reasoning to ensure transformations preserve semantic equivalence.
+
+
+compile LC to asm

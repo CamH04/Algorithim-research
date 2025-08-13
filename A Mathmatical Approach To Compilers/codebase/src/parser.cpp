@@ -6,7 +6,6 @@
 SExpr::SExpr(std::string a) : is_atom(true), atom(std::move(a)) {}
 SExpr::SExpr(std::vector<std::shared_ptr<SExpr>> v) : is_atom(false), list(std::move(v)) {}
 
-// Tokenizer implementation
 Parser::Tokenizer::Tokenizer(std::string input) : s(std::move(input)), i(0) {}
 void Parser::Tokenizer::skip_ws() {
     while (i < s.size() && std::isspace((unsigned char)s[i])) ++i;
@@ -33,7 +32,6 @@ Parser::Token Parser::Tokenizer::next() {
     return {Token::SYMBOL, sym};
 }
 
-// Parser implementation
 Parser::Parser(std::string in) : tz(std::move(in)) { cur = tz.next(); }
 void Parser::consume() { cur = tz.next(); }
 
