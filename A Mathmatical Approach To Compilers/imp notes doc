@@ -1,0 +1,68 @@
+DONE 17th:
+caching for Church numerals (faster + less memory churn)
+cleaner lambda parsing (single arg + multiple args)
+church booleans + if
+parser errors with line/col tracking.
+
+
+font end:
+- Source code is written in a Lisp-like S-expression syntax (.lctest)
+- Produces an AST of S-expressions (SExpr), which are either atoms (symbols/numbers) or lists.
+- Parentheses define structure, avoiding operator-precedence rules.
+- Error reporting: Tokens carry line/column metadata so errors are surfaced with helpful locations.
+
+- Rationale: S-expressions are a natural surface syntax for lambda calculus; minimal parsing logic is needed, reducing complexity in the front end.
+
+
+translator:
+    - Church numerals:
+        - integers are church numerals (λf.λx.f(f(...(x))))
+        - boolean church numerals (λt.λf.t / λt.λf.f)
+        - operators:
+            Addition → λm.λn.λf.λx. m f (n f x)
+            Multiplication → λm.λn.λf. m (n f)
+        - Special forms:
+            (lambda (x y) body) → curried λ-terms.
+            (if cond then else) → (cond then else).
+        - Application:
+            Any list (f a b c) → (((f a) b) c).
+        - Rationale:
+            By translating all constructs into pure λ-terms, the IR is uniform and higher-order by construction. This eliminates the need for primitive integer or boolean types in the IR.
+    - Optmisation:
+        -Problem: Naively expanding large integers produces massive strings (e.g., 1000 → 2000 nested function calls).
+        - Solution: Cache λ-term encodings of numerals in a hash table (std::unordered_map<int, std::string>).
+        - Benefit: Avoids recomputation, reduces IR size for repeated constants.
+        - Rationale: Caching reflects a common compiler practice: reusing IR fragments instead of regenerating them. In a real optimizing compiler, this would be analogous to common subexpression elimination.
+
+
+Uniform IR Model:
+- All constructs (numbers, booleans, control flow, functions) reduce to function application.
+- There is no syntactic distinction between "statements" and "expressions".
+- IR is fully higher-order, supporting:
+    - Functions as values.
+    - Function composition and currying natively.
+- Control constructs (like if) are expressed as functions rather than special opcodes.
+- Rationale: Unlike typical compiler IRs (e.g., SSA, TAC, or bytecode) which mix primitives and instructions, the λ-calculus IR uses a single abstraction mechanism — the λ-term. This unification makes it conceptually simpler, at the cost of verbosity.
+
+
+Extensibility:
+- New constructs can be added by encoding them as macros in λ-calculus:
+    let → ( (λx. body) value )
+    Pairs → λf. f a b
+    Recursion → via the Y combinator.
+- Rationale: Because the IR is Turing-complete, any language feature can be lowered into λ-calculus without extending the IR’s semantics. This makes it a "minimal but universal" target.
+
+Comparison to Traditional IRs:
+- SSA / TAC: Typically imperative, with explicit temporaries, jumps, and control flow graphs.
+- λ-calculus IR: Declarative, expression-oriented, with no explicit control flow — only function application.
+- Implication: Optimization techniques (inlining, common subexpression elimination, deforestation) can be expressed as λ-calculus transformations.
+
+Implementation Challenges:
+- Readability: Translated λ-terms become large and unreadable quickly.
+- Performance: Naive β-reduction is expensive; practical evaluators need graph reduction or supercombinators.
+- Debugging: Since everything reduces to functions, mapping back to source-level constructs is non-trivial.
+
+Summerry:
+- This implementation demonstrates how λ-calculus can serve as a minimal, uniform IR. Every construct in the source language is lowered into pure function abstraction and application, making the IR simple and mathematically elegant, while highlighting tradeoffs in verbosity and performance.
+
+

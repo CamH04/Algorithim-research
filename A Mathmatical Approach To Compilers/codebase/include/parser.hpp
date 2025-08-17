@@ -18,19 +18,27 @@ class Parser {
 public:
     Parser(std::string in);
     std::shared_ptr<SExpr> parse();
+
 private:
     struct Token {
         enum Kind { LPAREN, RPAREN, NUMBER, SYMBOL, END } kind;
         std::string text;
+        int line;
+        int col;
     };
     class Tokenizer {
     public:
         Tokenizer(std::string input);
         Token next();
+        int line() const { return _line; }
+        int col() const { return _col; }
     private:
         std::string s;
         size_t i;
+        int _line;
+        int _col;
         void skip_ws();
+        void advance();
     };
     Token cur;
     Tokenizer tz;
