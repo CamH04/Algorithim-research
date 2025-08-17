@@ -1,6 +1,7 @@
 #include "translator.hpp"
 #include <stdexcept>
 #include <unordered_map>
+#include <iostream>
 
 static bool is_integer_atom(const std::string &a) {
     if (a.empty()) return false;
@@ -35,6 +36,7 @@ const std::string LTRUE  = "(λt.λf.t)";
 const std::string LFALSE = "(λt.λf.f)";
 
 static std::string translate_atom(const std::string &a) {
+    //std::cerr << "Translating atom: " << a << "\n";
     if (is_integer_atom(a)) {
         int v = std::stoi(a);
         if (v < 0) throw std::runtime_error("Negative numbers not supported");
@@ -43,8 +45,9 @@ static std::string translate_atom(const std::string &a) {
     if (a == "true") return LTRUE;
     if (a == "false") return LFALSE;
 
-    return a;
+    return a; // <-- make sure we don’t accidentally drop the atom!
 }
+
 
 static std::string translate_list(const std::vector<std::shared_ptr<SExpr>> &lst) {
     if (lst.empty()) return "()";

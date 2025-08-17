@@ -24,32 +24,28 @@ void Parser::Tokenizer::skip_ws() {
         advance();
     }
 }
-
 Parser::Token Parser::Tokenizer::next() {
     skip_ws();
     if (i >= s.size()) return {Token::END, "", _line, _col};
 
-    char c = s[i];
     int startLine = _line, startCol = _col;
-
+    char c = s[i];
     if (c == '(') { advance(); return {Token::LPAREN, "(", startLine, startCol}; }
     if (c == ')') { advance(); return {Token::RPAREN, ")", startLine, startCol}; }
-
     if (std::isdigit((unsigned char)c) ||
-        (c == '-' && i+1 < s.size() && std::isdigit((unsigned char)s[i+1]))) {
-        size_t j = i;
-        if (s[j] == '-') advance();
-        while (j < s.size() && std::isdigit((unsigned char)s[j])) { j++; advance(); }
-        std::string num = s.substr(i, j - i);
-        return {Token::NUMBER, num, startLine, startCol};
+        (c == '-' && i + 1 < s.size() && std::isdigit((unsigned char)s[i + 1]))) {
+        size_t start = i;
+        if (s[i] == '-') advance();
+        while (i < s.size() && std::isdigit((unsigned char)s[i])) advance();
+        return {Token::NUMBER, s.substr(start, i - start), startLine, startCol};
     }
-
-    size_t j = i;
-    while (j < s.size() && !std::isspace((unsigned char)s[j]) && s[j] != '(' && s[j] != ')') {
-        j++; advance();
+    size_t start = i;
+    while (i < s.size() &&
+           !std::isspace((unsigned char)s[i]) &&
+           s[i] != '(' && s[i] != ')') {
+        advance();
     }
-    std::string sym = s.substr(i, j - i);
-    return {Token::SYMBOL, sym, startLine, startCol};
+    return {Token::SYMBOL, s.substr(start, i - start), startLine, startCol};
 }
 
 Parser::Parser(std::string in) : tz(std::move(in)) { cur = tz.next(); }
