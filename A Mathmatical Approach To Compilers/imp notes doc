@@ -5,13 +5,12 @@ church booleans + if
 parser errors with line/col tracking.
 
 
-font end:
-- Source code is written in a Lisp-like S-expression syntax (.lctest)
-- Produces an AST of S-expressions (SExpr), which are either atoms (symbols/numbers) or lists.
-- Parentheses define structure, avoiding operator-precedence rules.
-- Error reporting: Tokens carry line/column metadata so errors are surfaced with helpful locations.
-
-- Rationale: S-expressions are a natural surface syntax for lambda calculus; minimal parsing logic is needed, reducing complexity in the front end.
+DONE font end:
+DONE- Source code is written in a Lisp-like S-expression syntax (.lctest)
+DONE - Produces an AST of S-expressions (SExpr), which are either atoms (symbols/numbers) or lists.
+DONE - Parentheses define structure, avoiding operator-precedence rules.
+DONE - Error reporting: Tokens carry line/column metadata so errors are surfaced with helpful locations.
+DONE - Rationale: S-expressions are a natural surface syntax for lambda calculus; minimal parsing logic is needed, reducing complexity in the front end.
 
 
 translator:
