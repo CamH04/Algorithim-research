@@ -13,7 +13,7 @@ DONE - Error reporting: Tokens carry line/column metadata so errors are surfaced
 DONE - Rationale: S-expressions are a natural surface syntax for lambda calculus; minimal parsing logic is needed, reducing complexity in the front end.
 
 
-translator:
+<EDIT CURRENTLY WORKING ON> translator:
     - Church numerals:
         - integers are church numerals (λf.λx.f(f(...(x))))
         - boolean church numerals (λt.λf.t / λt.λf.f)
@@ -27,11 +27,12 @@ translator:
             Any list (f a b c) → (((f a) b) c).
         - Rationale:
             By translating all constructs into pure λ-terms, the IR is uniform and higher-order by construction. This eliminates the need for primitive integer or boolean types in the IR.
-    - Optmisation:
-        -Problem: Naively expanding large integers produces massive strings (e.g., 1000 → 2000 nested function calls).
-        - Solution: Cache λ-term encodings of numerals in a hash table (std::unordered_map<int, std::string>).
-        - Benefit: Avoids recomputation, reduces IR size for repeated constants.
-        - Rationale: Caching reflects a common compiler practice: reusing IR fragments instead of regenerating them. In a real optimizing compiler, this would be analogous to common subexpression elimination.
+
+- Optmisation:
+    -Problem: Naively expanding large integers produces massive strings (e.g., 1000 → 2000 nested function calls).
+    - Solution: Cache λ-term encodings of numerals in a hash table (std::unordered_map<int, std::string>).
+    - Benefit: Avoids recomputation, reduces IR size for repeated constants.
+    - Rationale: Caching reflects a common compiler practice: reusing IR fragments instead of regenerating them. In a real optimizing compiler, this would be analogous to common subexpression elimination.
 
 
 Uniform IR Model:
