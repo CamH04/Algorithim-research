@@ -13,20 +13,53 @@ DONE - Error reporting: Tokens carry line/column metadata so errors are surfaced
 DONE - Rationale: S-expressions are a natural surface syntax for lambda calculus; minimal parsing logic is needed, reducing complexity in the front end.
 
 
-<EDIT CURRENTLY WORKING ON> translator:
-    - Church numerals:
-        - integers are church numerals (λf.λx.f(f(...(x))))
-        - boolean church numerals (λt.λf.t / λt.λf.f)
-        - operators:
-            Addition → λm.λn.λf.λx. m f (n f x)
-            Multiplication → λm.λn.λf. m (n f)
-        - Special forms:
-            (lambda (x y) body) → curried λ-terms.
-            (if cond then else) → (cond then else).
-        - Application:
-            Any list (f a b c) → (((f a) b) c).
-        - Rationale:
-            By translating all constructs into pure λ-terms, the IR is uniform and higher-order by construction. This eliminates the need for primitive integer or boolean types in the IR.
+DONE translator:
+DONE    - Church numerals:
+Done        - integers are church numerals (λf.λx.f(f(...(x))))
+DONE        - boolean church numerals (λt.λf.t / λt.λf.f)
+DONE        - operators:
+DONE            Addition → λm.λn.λf.λx. m f (n f x)
+DONE            Multiplication → λm.λn.λf. m (n f)
+DONE        - Special forms:
+DONE            (lambda (x y) body) → curried λ-terms.
+DONE            (if cond then else) → (cond then else).
+DONE        - Application:
+DONE            Any list (f a b c) → (((f a) b) c).
+DONE        - Rationale:
+DONE            By translating all constructs into pure λ-terms, the IR is uniform and higher-      order by construction. This eliminates the need for primitive integer or boolean types in the IR.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 - Optmisation:
     -Problem: Naively expanding large integers produces massive strings (e.g., 1000 → 2000 nested function calls).
