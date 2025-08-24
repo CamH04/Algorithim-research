@@ -28,6 +28,11 @@ DONE            Any list (f a b c) → (((f a) b) c).
 DONE        - Rationale:
 DONE            By translating all constructs into pure λ-terms, the IR is uniform and higher-      order by construction. This eliminates the need for primitive integer or boolean types in the IR.
 
+DONE- Optmisation:
+DONE    -Problem: Naively expanding large integers produces massive strings (e.g., 1000 → 2000 nested function calls).
+DONE    - Solution: Cache λ-term encodings of numerals in a hash table (std::unordered_map<int, std::string>).
+DONE    - Benefit: Avoids recomputation, reduces IR size for repeated constants.
+DONE    - Rationale: Caching reflects a common compiler practice: reusing IR fragments instead of regenerating them. In a real optimizing compiler, this would be analogous to common subexpression elimination.
 
 
 
@@ -41,31 +46,6 @@ DONE            By translating all constructs into pure λ-terms, the IR is unif
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-- Optmisation:
-    -Problem: Naively expanding large integers produces massive strings (e.g., 1000 → 2000 nested function calls).
-    - Solution: Cache λ-term encodings of numerals in a hash table (std::unordered_map<int, std::string>).
-    - Benefit: Avoids recomputation, reduces IR size for repeated constants.
-    - Rationale: Caching reflects a common compiler practice: reusing IR fragments instead of regenerating them. In a real optimizing compiler, this would be analogous to common subexpression elimination.
 
 
 Uniform IR Model:

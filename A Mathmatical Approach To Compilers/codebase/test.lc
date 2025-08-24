@@ -1,0 +1,4 @@
+(((λm.λn.λf.λx. m f (n f x)) (((λm.λn.λf.λx. m f (n f x)) λf.λx.f x) λf.λx.f f x)) λf.λx.f f f x)
+(((λm.λn.λf. m (n f)) λf.λx.f f x) λf.λx.f f f x)
+λx.(((λm.λn.λf.λx. m f (n f x)) x) λf.λx.f x)
+(λx.(((λm.λn.λf. m (n f)) x) x) λf.λx.f f f f f x)
