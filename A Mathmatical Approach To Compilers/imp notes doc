@@ -34,6 +34,13 @@ DONE    - Solution: Cache λ-term encodings of numerals in a hash table (std::un
 DONE    - Benefit: Avoids recomputation, reduces IR size for repeated constants.
 DONE    - Rationale: Caching reflects a common compiler practice: reusing IR fragments instead of regenerating them. In a real optimizing compiler, this would be analogous to common subexpression elimination.
 
+DONE: Uniform IR Model:
+DONE- All constructs (numbers, booleans, control flow, functions) reduce to function application.
+DONE- IR is fully higher-order, supporting:
+    DONE- Functions as values.
+    DONE- Function composition and currying natively.
+DONE- Control constructs (like if) are expressed as functions rather than special opcodes.
+DONE- Rationale: Unlike typical compiler IRs (e.g., SSA, TAC, or bytecode) which mix primitives and instructions, the λ-calculus IR uses a single abstraction mechanism — the λ-term. This unification makes it conceptually simpler, at the cost of verbosity.
 
 
 
@@ -48,14 +55,16 @@ DONE    - Rationale: Caching reflects a common compiler practice: reusing IR fra
 
 
 
-Uniform IR Model:
-- All constructs (numbers, booleans, control flow, functions) reduce to function application.
-- There is no syntactic distinction between "statements" and "expressions".
-- IR is fully higher-order, supporting:
-    - Functions as values.
-    - Function composition and currying natively.
-- Control constructs (like if) are expressed as functions rather than special opcodes.
-- Rationale: Unlike typical compiler IRs (e.g., SSA, TAC, or bytecode) which mix primitives and instructions, the λ-calculus IR uses a single abstraction mechanism — the λ-term. This unification makes it conceptually simpler, at the cost of verbosity.
+
+
+
+
+
+
+
+
+
+
 
 
 Extensibility:
