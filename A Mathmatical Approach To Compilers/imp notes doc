@@ -42,6 +42,12 @@ DONE- IR is fully higher-order, supporting:
 DONE- Control constructs (like if) are expressed as functions rather than special opcodes.
 DONE- Rationale: Unlike typical compiler IRs (e.g., SSA, TAC, or bytecode) which mix primitives and instructions, the λ-calculus IR uses a single abstraction mechanism — the λ-term. This unification makes it conceptually simpler, at the cost of verbosity.
 
+DONEExtensibility:
+DONE- New constructs can be added by encoding them as macros in λ-calculus:
+DONE    let → ( (λx. body) value )
+DONE    Pairs → λf. f a b
+DONE    Recursion → via the Y combinator.
+DONE- Rationale: Because the IR is Turing-complete, any language feature can be lowered into λ-calculus without extending the IR’s semantics. This makes it a "minimal but universal" target.
 
 
 
@@ -67,12 +73,18 @@ DONE- Rationale: Unlike typical compiler IRs (e.g., SSA, TAC, or bytecode) which
 
 
 
-Extensibility:
-- New constructs can be added by encoding them as macros in λ-calculus:
-    let → ( (λx. body) value )
-    Pairs → λf. f a b
-    Recursion → via the Y combinator.
-- Rationale: Because the IR is Turing-complete, any language feature can be lowered into λ-calculus without extending the IR’s semantics. This makes it a "minimal but universal" target.
+
+
+
+
+
+
+
+
+
+
+
+
 
 Comparison to Traditional IRs:
 - SSA / TAC: Typically imperative, with explicit temporaries, jumps, and control flow graphs.
