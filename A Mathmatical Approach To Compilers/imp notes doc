@@ -49,6 +49,15 @@ DONE    Pairs → λf. f a b
 DONE    Recursion → via the Y combinator.
 DONE- Rationale: Because the IR is Turing-complete, any language feature can be lowered into λ-calculus without extending the IR’s semantics. This makes it a "minimal but universal" target.
 
+DONE : Comparison to Traditional IRs:
+DONE : - SSA / TAC: Typically imperative, with explicit temporaries, jumps, and control flow graphs.
+DONE : - λ-calculus IR: Declarative, expression-oriented, with no explicit control flow — only function application.
+DONE : - Implication: Optimization techniques (inlining, common subexpression elimination, deforestation) can be expressed as λ-calculus transformations.
+
+DONE : Implementation Challenges:
+DONE :- Readability: Translated λ-terms become large and unreadable quickly.
+DONE :- Performance: Naive β-reduction is expensive; practical evaluators need graph reduction or supercombinators.
+DONE :- Debugging: Since everything reduces to functions, mapping back to source-level constructs is non-trivial.
 
 
 
@@ -86,15 +95,20 @@ DONE- Rationale: Because the IR is Turing-complete, any language feature can be 
 
 
 
-Comparison to Traditional IRs:
-- SSA / TAC: Typically imperative, with explicit temporaries, jumps, and control flow graphs.
-- λ-calculus IR: Declarative, expression-oriented, with no explicit control flow — only function application.
-- Implication: Optimization techniques (inlining, common subexpression elimination, deforestation) can be expressed as λ-calculus transformations.
 
-Implementation Challenges:
-- Readability: Translated λ-terms become large and unreadable quickly.
-- Performance: Naive β-reduction is expensive; practical evaluators need graph reduction or supercombinators.
-- Debugging: Since everything reduces to functions, mapping back to source-level constructs is non-trivial.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Summerry:
 - This implementation demonstrates how λ-calculus can serve as a minimal, uniform IR. Every construct in the source language is lowered into pure function abstraction and application, making the IR simple and mathematically elegant, while highlighting tradeoffs in verbosity and performance.
