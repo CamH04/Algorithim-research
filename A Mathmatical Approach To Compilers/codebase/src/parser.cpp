@@ -1,3 +1,11 @@
+/***************************************************************************************
+*    Title: A Mathematical Approach To Compilers
+*    Author: Cameron Haynes
+*    Date: 03/09/2025
+*    Description:parser class implmentation for compiler (src lang -> tokens)
+***************************************************************************************/
+
+
 #include "parser.hpp"
 #include <cctype>
 #include <stdexcept>
@@ -6,11 +14,12 @@
 SExpr::SExpr(std::string a) : is_atom(true), atom(std::move(a)) {}
 SExpr::SExpr(std::vector<std::shared_ptr<SExpr>> v) : is_atom(false), list(std::move(v)) {}
 
+
 Parser::Tokenizer::Tokenizer(std::string input)
     : s(std::move(input)), i(0), _line(1), _col(1) {}
 
 void Parser::Tokenizer::advance() {
-    if (s[i] == '\n') {
+    if (i < s.size() && s[i] == '\n') {
         _line++;
         _col = 1;
     } else {
@@ -24,21 +33,39 @@ void Parser::Tokenizer::skip_ws() {
         advance();
     }
 }
+
 Parser::Token Parser::Tokenizer::next() {
     skip_ws();
-    if (i >= s.size()) return {Token::END, "", _line, _col};
+
+    if (i >= s.size()) {
+        return {Token::END, "", _line, _col};
+    }
 
     int startLine = _line, startCol = _col;
     char c = s[i];
-    if (c == '(') { advance(); return {Token::LPAREN, "(", startLine, startCol}; }
-    if (c == ')') { advance(); return {Token::RPAREN, ")", startLine, startCol}; }
+
+    // Handle parentheses
+    if (c == '(') {
+        advance();
+        return {Token::LPAREN, "(", startLine, startCol};
+    }
+    if (c == ')') {
+        advance();
+        return {Token::RPAREN, ")", startLine, startCol};
+    }
+
+    // handle unsigned numbers
     if (std::isdigit((unsigned char)c) ||
         (c == '-' && i + 1 < s.size() && std::isdigit((unsigned char)s[i + 1]))) {
         size_t start = i;
         if (s[i] == '-') advance();
-        while (i < s.size() && std::isdigit((unsigned char)s[i])) advance();
+        while (i < s.size() && std::isdigit((unsigned char)s[i])) {
+            advance();
+        }
         return {Token::NUMBER, s.substr(start, i - start), startLine, startCol};
     }
+
+    // handle symbols
     size_t start = i;
     while (i < s.size() &&
            !std::isspace((unsigned char)s[i]) &&
@@ -48,19 +75,29 @@ Parser::Token Parser::Tokenizer::next() {
     return {Token::SYMBOL, s.substr(start, i - start), startLine, startCol};
 }
 
-Parser::Parser(std::string in) : tz(std::move(in)) { cur = tz.next(); }
-void Parser::consume() { cur = tz.next(); }
+
+Parser::Parser(std::string in) : tz(std::move(in)) {
+    cur = tz.next();
+}
+
+void Parser::consume() {
+    cur = tz.next();
+}
 
 std::shared_ptr<SExpr> Parser::parse() {
     std::vector<std::shared_ptr<SExpr>> exprs;
-    while (cur.kind != Token::END) exprs.push_back(parseOne());
-    if (exprs.size() == 1) return exprs[0];
+    while (cur.kind != Token::END) {
+        exprs.push_back(parseOne());
+    }
+    if (exprs.size() == 1) {
+        return exprs[0];
+    }
     return std::make_shared<SExpr>(exprs);
 }
 
 std::shared_ptr<SExpr> Parser::parseOne() {
     if (cur.kind == Token::LPAREN) {
-        consume();
+        consume(); // consume '('
         std::vector<std::shared_ptr<SExpr>> elems;
         while (cur.kind != Token::RPAREN && cur.kind != Token::END) {
             elems.push_back(parseOne());
@@ -69,21 +106,22 @@ std::shared_ptr<SExpr> Parser::parseOne() {
             throw std::runtime_error("Unexpected end of input: missing ')' at line "
                                      + std::to_string(cur.line) + ", col " + std::to_string(cur.col));
         }
-        consume(); // eat RPAREN
+        consume(); // consume ')'
         return std::make_shared<SExpr>(elems);
     }
-
     if (cur.kind == Token::NUMBER || cur.kind == Token::SYMBOL) {
-        std::string t = cur.text;
+        std::string text = cur.text;
         consume();
-        return std::make_shared<SExpr>(t);
+        return std::make_shared<SExpr>(text);
     }
-
+    if (cur.kind == Token::RPAREN) {
+        throw std::runtime_error("Unexpected ')' at line "
+                                 + std::to_string(cur.line) + ", col " + std::to_string(cur.col));
+    }
     if (cur.kind == Token::END) {
         throw std::runtime_error("Unexpected end of input at line "
                                  + std::to_string(cur.line) + ", col " + std::to_string(cur.col));
     }
-
     throw std::runtime_error("Unexpected token '" + cur.text + "' at line "
                              + std::to_string(cur.line) + ", col " + std::to_string(cur.col));
 }
