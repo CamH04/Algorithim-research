@@ -95,12 +95,14 @@ int main(int argc, char** argv) {
     std::string outputData;
     auto total_start = std::chrono::high_resolution_clock::now();
 
+    std::chrono::duration<double> parse_time, translate_time;
+
     try {
         auto parse_start = std::chrono::high_resolution_clock::now();
         Parser parser(source);
         auto root = parser.parse();
         auto parse_end = std::chrono::high_resolution_clock::now();
-        auto parse_time = parse_end - parse_start;
+        parse_time = parse_end - parse_start;
 
         auto translate_start = std::chrono::high_resolution_clock::now();
         if (!root->is_atom && !root->list.empty()) {
@@ -111,10 +113,7 @@ int main(int argc, char** argv) {
             outputData += translate(root) + "\n";
         }
         auto translate_end = std::chrono::high_resolution_clock::now();
-        auto translate_time = translate_end - translate_start;
-        if (show_stats) {
-            print_compilation_stats(parse_time, translate_time, input_size, outputData.size());
-        }
+        translate_time = translate_end - translate_start;
 
     } catch (const std::runtime_error &e) {
         std::cerr << "Compilation Error: " << e.what() << "\n";
@@ -124,11 +123,15 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    auto total_end = std::chrono::high_resolution_clock::now();
+    auto total_end = std::chrono::high_resolution_clock::now();  // Capture end time HERE
+    auto total_time = total_end - total_start;
+
     if (outputData.empty()) {
         std::cerr << "Error: translation produced no output\n";
         return 1;
     }
+
+    // File I/O and output operations happen AFTER timing measurement
     std::istringstream ss(outputData);
     std::string line;
     std::vector<std::string> lines;
@@ -154,11 +157,14 @@ int main(int argc, char** argv) {
     std::cout << "  Input:  " << inputFile << " (" << input_size << " bytes)\n";
     std::cout << "  Output: " << outPath << " (" << outputData.size() << " bytes)\n";
 
-    if (!show_stats) {
-        auto total_time = total_end - total_start;
+    if (show_stats) {
+        print_compilation_stats(parse_time, translate_time, input_size, outputData.size());
+    } else {
+        auto total_us = std::chrono::duration_cast<std::chrono::microseconds>(total_time);
         std::cout << "  Time:   " << std::fixed << std::setprecision(2)
-                  << total_time.count() << " ms\n";
+                  << total_us.count() / 1000.0 << " ms\n";
     }
+
     if (show_stats) {
         clear_cache();
     }
