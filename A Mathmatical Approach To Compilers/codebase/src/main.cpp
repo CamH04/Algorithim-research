@@ -123,7 +123,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    auto total_end = std::chrono::high_resolution_clock::now();  // Capture end time HERE
+    auto total_end = std::chrono::high_resolution_clock::now();
     auto total_time = total_end - total_start;
 
     if (outputData.empty()) {
@@ -131,7 +131,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    // File I/O and output operations happen AFTER timing measurement
+    // File I/O happen AFTER timing measurement
     std::istringstream ss(outputData);
     std::string line;
     std::vector<std::string> lines;
