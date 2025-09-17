@@ -1,0 +1,14 @@
+Device Specs:
+Mem: 7678MiB
+CPU: Intel N100 (4) @ 3.400GHz
+
+Simple:
+1+ 2+ 3
+2*3
+Use a function to add 1 to an input paramater (10)
+Use a function to square input paramater (5)
+
+
+Complex:
+1.RETURNS A PAIR(AMUNT OF EVEN FACTORIALS AND THE SUM OF EVEN FACTORIALS) FROM A FACTORIAL CALCULAOR (DEFINED RECURSIVLY)
+2.PERFORMS CALCULATIONS OF A LIST OF 3 BASED ON CONDITIONS

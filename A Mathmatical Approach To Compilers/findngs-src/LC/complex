@@ -1,0 +1,12 @@
+(let ((factorial(rec (lambda (f n)(if (zero? n) 1 (* n (f (pred n))))))))
+(let ((numbers (cons 0 (cons 1 (cons 2 (cons 3 (cons 4 (cons 5 nil))))))))
+(let ((map-factorial(rec (lambda (mapper lst)(if (nil? lst) nil (cons (factorial (head lst))(mapper mapper (tail lst))))))))
+(let ((sum-list(rec (lambda (summer lst acc)(if (nil? lst) acc (summer summer (tail lst) (+ acc (head lst)))))))) (let ((is-even(lambda (n) (zero? (- n (* 2 (/ n 2)))))))
+(let ((filter-even (rec (lambda (filterer lst)(if (nil? lst) nil (let ((current (head lst)) (rest-filtered (filterer filterer (tail lst))))(if (is-even current)(cons current rest-filtered) rest-filtered)))))))
+(let ((factorial-results (map-factorial map-factorial numbers))) (let ((even-factorials (filter-even filter-even factorial-results))) (let ((final-sum (sum-list sum-list even-factorials 0)))
+(let ((count-evens(rec (lambda (counter lst)(if (nil? lst) 0 (succ (counter counter (tail lst)))))))) (pair (count-evens count-evens even-factorials) final-sum)))))))))))
+(let ((complex-logic(lambda (x y z)(if (and (> x 0) (< y 10))(if (or (= z 5) (>= z 20))(+ (* x y) z)(- (* x z) y))(if (not (zero? x))(/ (+ y z) x)42)))))
+(let ((test-cases(cons (cons 3 (cons 7 (cons 5 nil)))(cons (cons 15 (cons 2 (cons 25 nil)))(cons (cons 0 (cons 10 (cons 3 nil)))nil)))))
+(let ((run-tests(rec (lambda (runner cases results)(if (nil? cases)results(let ((current-case (head cases)))(let ((x (first current-case))(rest-case (second current-case)))(let ((y (first rest-case))
+    (z (first (second rest-case))))(let ((result (complex-logic x y z)))(runner runner(tail cases)(cons result results)))))))))))(run-tests run-tests test-cases nil))))
+
