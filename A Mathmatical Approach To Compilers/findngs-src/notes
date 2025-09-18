@@ -1,0 +1,10 @@
+specs:
+Device Specs:
+Mem: 7678MiB
+CPU: Intel N100 (4) @ 3.400GHz
+
+refer to comparitve for mesurements methods
+
+the lc compiler is very limited in features while other compilers have many more useful features
+built in which will contribute to them having slower compile times as they are more fleshed out.
+
