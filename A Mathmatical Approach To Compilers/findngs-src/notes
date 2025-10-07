@@ -8,3 +8,4 @@ refer to comparitve for mesurements methods
 the lc compiler is very limited in features while other compilers have many more useful features
 built in which will contribute to them having slower compile times as they are more fleshed out.
 
+run all compilations 3 times and calculate the mean value to determine avg compilation time and memory usage. input and output should stay the same
