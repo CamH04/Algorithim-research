@@ -15,10 +15,6 @@ int main() {
     int product = 2 * 3;
     int add_result = add_one(10);
     int square_result = square(5);
-    printf("1 + 2 + 3 = %d\n", sum);
-    printf("2 * 3 = %d\n", product);
-    printf("add_one(10) = %d\n", add_result);
-    printf("square(5) = %d\n", square_result);
     return 0;
 }
 EOF
